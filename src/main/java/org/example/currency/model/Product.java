@@ -1,0 +1,38 @@
+package org.example.currency.model;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.util.List;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "products")
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false)
+    private String name;
+
+    private Double price;
+
+    private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Order> orders;
+
+    @ManyToOne
+    private Currency currency;
+}
