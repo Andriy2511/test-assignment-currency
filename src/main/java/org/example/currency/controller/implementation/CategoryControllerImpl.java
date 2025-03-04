@@ -22,7 +22,7 @@ public class CategoryControllerImpl implements CategoryController {
 
     @Override
     @PostMapping
-    public void addCategory(@RequestBody @Valid CategoryDTO category) {
+    public void addCategory(@Valid @RequestBody CategoryDTO category) {
         categoryService.addCategory(category);
     }
 
@@ -40,13 +40,13 @@ public class CategoryControllerImpl implements CategoryController {
 
     @Override
     @PutMapping("/{categoryName}/rename")
-    public void updateCategoryName(@PathVariable String categoryName, @RequestBody String newName){
+    public void updateCategoryName(@PathVariable String categoryName, @RequestBody @Valid String newName){
         categoryService.changeCategoryName(categoryName, newName);
     }
 
     @Override
     @PutMapping("/{categoryName}/parent")
-    public void updateParentCategory(@PathVariable String categoryName, @RequestBody String newParentName){
+    public void updateParentCategory(@PathVariable String categoryName, @RequestBody @Valid String newParentName){
         categoryService.changeParentCategory(categoryName, newParentName);
     }
 

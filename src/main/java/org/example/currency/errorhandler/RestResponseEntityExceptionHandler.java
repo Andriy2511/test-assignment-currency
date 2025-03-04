@@ -48,6 +48,18 @@ public class RestResponseEntityExceptionHandler {
         return buildStringWithErrorDetailsAndStatus(errorDetailsBuilder, HttpStatus.NOT_FOUND, e);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public String handleUserNotFoundException(UserNotFoundException e) {
+        errorDetailsBuilder = new StringBuilder();
+        return buildStringWithErrorDetailsAndStatus(errorDetailsBuilder, HttpStatus.NOT_FOUND, e);
+    }
+
+    @ExceptionHandler(FixerParsingException.class)
+    public String handleFixerParsingException(FixerParsingException e) {
+        errorDetailsBuilder = new StringBuilder();
+        return buildStringWithErrorDetailsAndStatus(errorDetailsBuilder, HttpStatus.SERVICE_UNAVAILABLE, e);
+    }
+
     private String buildStringWithErrorDetailsAndStatus(StringBuilder errorDetails, HttpStatus status, Exception e) {
         errorDetails
                 .append(e.getMessage())

@@ -1,5 +1,6 @@
 package org.example.currency.controller.implementation;
 
+import jakarta.validation.Valid;
 import org.example.currency.controller.AdminController;
 import org.example.currency.dto.RoleDTO;
 import org.example.currency.dto.UserDTO;
@@ -23,7 +24,7 @@ public class AdminControllerImpl implements AdminController { // SUPERUSER
 
     @Override
     @PostMapping("/manager")
-    public void addManager(@RequestBody UserDTO userDTO){
+    public void addManager(@Valid @RequestBody  UserDTO userDTO){
         RoleDTO roleDTO = RoleDTO.builder().name("CUSTOMER").build();
         userDTO.toBuilder().roleDTO(roleDTO);
         userService.addUser(userDTO);

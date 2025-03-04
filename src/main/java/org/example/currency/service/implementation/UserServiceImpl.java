@@ -2,6 +2,7 @@ package org.example.currency.service.implementation;
 
 import org.example.currency.dto.RoleDTO;
 import org.example.currency.dto.UserDTO;
+import org.example.currency.exception.UserNotFoundException;
 import org.example.currency.model.Role;
 import org.example.currency.model.User;
 import org.example.currency.repository.UserRepository;
@@ -44,5 +45,11 @@ public class UserServiceImpl implements UserService {
 
         List<User> users = userRepository.findByRole(role);
         return users.stream().map(UserDTO::toDTO).toList();
+    }
+
+    @Override
+    public User findUserByLogin(String login) {
+        return userRepository.findUserByLogin(login).orElseThrow(() ->
+                new UserNotFoundException("User not found"));
     }
 }
