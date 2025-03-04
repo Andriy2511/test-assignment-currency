@@ -3,6 +3,7 @@ package org.example.currency.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -22,12 +23,15 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category")
+    @EqualsAndHashCode.Exclude
     private List<Product> products;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "parent_id")
+    @EqualsAndHashCode.Exclude
     private Category parentCategory;
 
-    @OneToMany(mappedBy = "parentCategory")
+    @OneToMany(mappedBy = "parentCategory", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @EqualsAndHashCode.Exclude
     private List<Category> subcategories;
 }

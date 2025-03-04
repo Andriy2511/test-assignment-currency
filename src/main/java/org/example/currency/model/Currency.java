@@ -19,7 +19,7 @@ public class Currency {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String name;
+    private String code;
 
     @OneToMany(mappedBy = "currency")
     private List<Product> products;

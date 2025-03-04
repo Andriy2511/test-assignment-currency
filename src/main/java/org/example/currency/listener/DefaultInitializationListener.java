@@ -1,7 +1,9 @@
 package org.example.currency.listener;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.currency.dto.RoleDTO;
 import org.example.currency.dto.UserDTO;
+import org.example.currency.exception.RoleNotFoundException;
 import org.example.currency.model.Role;
 import org.example.currency.service.RoleService;
 import org.example.currency.service.UserService;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class DefaultInitializationListener implements ApplicationListener<ContextRefreshedEvent> {
 
     private final RoleService roleService;
@@ -39,7 +42,8 @@ public class DefaultInitializationListener implements ApplicationListener<Contex
     }
 
     private void addRoleByName(String name){
-        if (roleService.findRoleByName(name) == null) {
+        RoleDTO roleDTO = getRoleByName(name);
+        if (roleDTO == null) {
             roleService.addRole(RoleDTO.toDTO(new Role(name)));
         }
     }
@@ -54,6 +58,15 @@ public class DefaultInitializationListener implements ApplicationListener<Contex
                     .build();
 
             userService.addUser(user);
+        }
+    }
+
+    private RoleDTO getRoleByName(String name){
+        try {
+            return roleService.findRoleByName(name);
+        } catch (RoleNotFoundException e) {
+            log.warn("Role with name {} not found: ", name);
+            return null;
         }
     }
 }
