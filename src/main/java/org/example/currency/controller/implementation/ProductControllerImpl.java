@@ -1,6 +1,5 @@
 package org.example.currency.controller.implementation;
 
-import jakarta.transaction.Transactional;
 import org.example.currency.controller.ProductController;
 import org.example.currency.dto.ProductDTO;
 import org.example.currency.dto.RenameProductDTO;
@@ -44,7 +43,6 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    @Transactional
     @DeleteMapping("/{name}")
     public void deleteProduct(@PathVariable String name){
         productService.deleteProductByName(name);

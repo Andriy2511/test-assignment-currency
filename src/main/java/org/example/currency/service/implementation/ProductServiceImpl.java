@@ -72,6 +72,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void deleteProductByName(String name) {
         productRepository.deleteByName(name);
     }

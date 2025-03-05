@@ -1,6 +1,5 @@
 package org.example.currency.controller.implementation;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.example.currency.controller.CategoryController;
 import org.example.currency.dto.CategoryDTO;
@@ -52,7 +51,6 @@ public class CategoryControllerImpl implements CategoryController {
     }
 
     @Override
-    @Transactional
     @DeleteMapping("/{categoryName}")
     public void deleteCategoryByName(@PathVariable String categoryName){
         categoryService.deleteCategoryByName(categoryName);

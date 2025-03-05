@@ -70,6 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public void deleteCategoryByName(String name) {
         categoryRepository.deleteByName(name);
     }
