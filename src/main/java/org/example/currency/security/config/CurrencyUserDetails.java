@@ -29,7 +29,7 @@ public class CurrencyUserDetails implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities() { //TODO
         return List.of(new SimpleGrantedAuthority("ROLE_" + role));
     }
 

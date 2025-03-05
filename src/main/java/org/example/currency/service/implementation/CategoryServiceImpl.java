@@ -54,7 +54,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    @Transactional
     public void changeCategoryName(String categoryName, String newName) {
         categoryRepository.updateCategoryName(categoryName, newName);
     }

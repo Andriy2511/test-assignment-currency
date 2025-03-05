@@ -32,15 +32,24 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth
+        http.csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration configuration = new CorsConfiguration();
+                    configuration.setAllowCredentials(true);
+                    configuration.addAllowedOrigin("*");
+                    configuration.addAllowedHeader("*");
+                    configuration.addAllowedMethod("*");
+                    return configuration;
+                }))
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/registration/**").permitAll()
                         .requestMatchers("/login/**").permitAll()
                         .requestMatchers("/logout/**").permitAll()
-                        .requestMatchers("/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET , "/product/**").hasRole("CUSTOMER")
-                        .requestMatchers("/order/**").hasRole("CUSTOMER")
-                        .requestMatchers("/product/**", "/category/**").hasRole("MANAGER")
-                        .anyRequest().authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET , "/product/**").permitAll()
+                        .requestMatchers("/order/**").hasAnyRole("CUSTOMER", "ADMIN")
+                        .requestMatchers("/product/**", "/category/**").hasAnyRole("MANAGER", "ADMIN")
+                        .anyRequest().permitAll()
                 ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))

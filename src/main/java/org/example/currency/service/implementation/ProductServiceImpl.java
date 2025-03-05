@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public void addProduct(ProductDTO productDTO) {
         Product product = ProductDTO.toEntity(productDTO);
-
+        setCategoryAndCurrencyForProduct(productDTO, product);
 
         productRepository.save(product);
     }
@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductByName(String name) {
-        return  productRepository
+        return productRepository
                 .findByName(name)
                 .orElseThrow(() -> new ProductNotFoundException("Product doesn't exist"));
     }

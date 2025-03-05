@@ -31,9 +31,10 @@ public class ProductDTO {
         return ProductDTO.builder()
                 .id(product.getId())
                 .name(product.getName())
-                .name(product.getDescription())
-                .name(product.getCategory().getName())
-                .name(product.getCategory().getName())
+                .price(product.getPrice())
+                .description(product.getDescription())
+                .categoryName(product.getCategory().getName())
+                .currencyCode(product.getCurrency().getCode())
                 .build();
     }
 

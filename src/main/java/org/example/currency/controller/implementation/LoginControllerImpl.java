@@ -1,6 +1,7 @@
 package org.example.currency.controller.implementation;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.example.currency.controller.LoginController;
 import org.example.currency.dto.JwtTokenDTO;
 import org.example.currency.dto.LoginRequestDTO;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/login")
+@Slf4j
 public class LoginControllerImpl implements LoginController {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -35,17 +37,20 @@ public class LoginControllerImpl implements LoginController {
     @Override
     @PostMapping("/authorization")
     public JwtTokenDTO createAuthToken(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
+        log.info("Creating JWT token");
 
         try {
             authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequestDTO.getLogin(), loginRequestDTO.getPassword()));
 
         } catch (AuthenticationException e) {
+            log.info(e.getMessage());
             throw new UnauthorizedException("Invalid login or password");
         }
 
         UserDetails userDetails = userDetailsLoader.loadUserByUsername(loginRequestDTO.getLogin());
         String token = jwtTokenProvider.generateToken(userDetails);
+        log.info("Generated token: {}", token);
         return new JwtTokenDTO(token);
     }
 

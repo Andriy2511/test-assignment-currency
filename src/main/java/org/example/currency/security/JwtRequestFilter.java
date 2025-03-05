@@ -40,7 +40,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwtToken = authHeader.substring(7);
-
             if(!blackListService.isBlacklisted(jwtToken)) {
                 try {
                     login = jwtTokenProvider.getUsernameFromToken(jwtToken);

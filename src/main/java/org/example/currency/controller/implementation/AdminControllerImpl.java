@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
-public class AdminControllerImpl implements AdminController { // SUPERUSER
+public class AdminControllerImpl implements AdminController {
 
     private final UserService userService;
 

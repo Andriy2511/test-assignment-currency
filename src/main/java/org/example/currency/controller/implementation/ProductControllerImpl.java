@@ -1,7 +1,9 @@
 package org.example.currency.controller.implementation;
 
+import jakarta.transaction.Transactional;
 import org.example.currency.controller.ProductController;
 import org.example.currency.dto.ProductDTO;
+import org.example.currency.dto.RenameProductDTO;
 import org.example.currency.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +26,8 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    @GetMapping
-    public ProductDTO getProductByName(@RequestBody String name){
+    @GetMapping("/{name}")
+    public ProductDTO getProductByName(@PathVariable String name){
         return productService.getProductDTOByName(name);
     }
 
@@ -37,13 +39,14 @@ public class ProductControllerImpl implements ProductController {
 
     @Override
     @PatchMapping
-    public void renameProduct(@RequestBody String oldName, @RequestBody String newName){
-        productService.renameProduct(oldName, newName);
+    public void renameProduct(@RequestBody RenameProductDTO productDTO){
+        productService.renameProduct(productDTO.getOldName(), productDTO.getNewName());
     }
 
     @Override
-    @DeleteMapping
-    public void deleteProduct(@RequestBody String name){
+    @Transactional
+    @DeleteMapping("/{name}")
+    public void deleteProduct(@PathVariable String name){
         productService.deleteProductByName(name);
     }
 }

@@ -20,6 +20,8 @@ public class OrderDTO {
 
     private String currency;
 
+    private Double price;
+
     private Double priceInEUR;
 
     public static OrderDTO toDTO(Order order) {
@@ -27,6 +29,7 @@ public class OrderDTO {
                 .orderId(order.getId())
                 .productName(order.getProduct().getName())
                 .userLogin(order.getUser().getLogin())
+                .price(order.getProduct().getPrice())
                 .build();
     }
 
