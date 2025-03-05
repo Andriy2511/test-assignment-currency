@@ -5,6 +5,7 @@ import org.example.currency.controller.RegistrationController;
 import org.example.currency.dto.RoleDTO;
 import org.example.currency.dto.UserDTO;
 import org.example.currency.service.UserService;
+import org.example.currency.utils.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class RegistrationControllerImpl implements RegistrationController {
     @Override
     @PostMapping
     public UserDTO register(@Valid @RequestBody UserDTO user) {
-        RoleDTO roleDTO = RoleDTO.builder().name("CUSTOMER").build();
+        RoleDTO roleDTO = RoleDTO.builder().name(UserRole.CUSTOMER.getName()).build();
 
         return userService.addUser(user.toBuilder().roleDTO(roleDTO).build());
     }

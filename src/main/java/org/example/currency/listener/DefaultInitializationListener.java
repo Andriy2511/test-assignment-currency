@@ -7,6 +7,7 @@ import org.example.currency.exception.RoleNotFoundException;
 import org.example.currency.model.Role;
 import org.example.currency.service.RoleService;
 import org.example.currency.service.UserService;
+import org.example.currency.utils.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -19,9 +20,6 @@ public class DefaultInitializationListener implements ApplicationListener<Contex
 
     private final RoleService roleService;
     private final UserService userService;
-    private final String customerRole = "CUSTOMER";
-    private final String adminRole = "ADMIN";
-    private final String managerRole = "MANAGER";
 
     @Autowired
     public DefaultInitializationListener(RoleService roleService, UserService userService, PasswordEncoder passwordEncoder) {
@@ -36,9 +34,9 @@ public class DefaultInitializationListener implements ApplicationListener<Contex
     }
 
     private void initializeRoles() {
-        addRoleByName(adminRole);
-        addRoleByName(customerRole);
-        addRoleByName(managerRole);
+        addRoleByName(UserRole.ADMIN.getName());
+        addRoleByName(UserRole.CUSTOMER.getName());
+        addRoleByName(UserRole.MANAGER.getName());
     }
 
     private void addRoleByName(String name){
@@ -49,11 +47,11 @@ public class DefaultInitializationListener implements ApplicationListener<Contex
     }
 
     private void registerAdminIfAbsent(){
-        RoleDTO role = roleService.findRoleByName(adminRole);
+        RoleDTO role = roleService.findRoleByName(UserRole.ADMIN.getName());
         if(userService.getUsersByRole(role).isEmpty()) {
             UserDTO user = UserDTO.builder()
-                    .login(adminRole)
-                    .password(adminRole)
+                    .login(UserRole.ADMIN.getName())
+                    .password(UserRole.ADMIN.getName())
                     .roleDTO(role)
                     .build();
 

@@ -1,5 +1,6 @@
 package org.example.currency.security;
 
+import org.example.currency.utils.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,10 +46,10 @@ public class SecurityConfig {
                         .requestMatchers("/registration/**").permitAll()
                         .requestMatchers("/login/**").permitAll()
                         .requestMatchers("/logout/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.getName())
                         .requestMatchers(HttpMethod.GET , "/product/**").permitAll()
-                        .requestMatchers("/order/**").hasAnyRole("CUSTOMER", "ADMIN")
-                        .requestMatchers("/product/**", "/category/**").hasAnyRole("MANAGER", "ADMIN")
+                        .requestMatchers("/order/**").hasAnyRole(UserRole.CUSTOMER.getName(), UserRole.ADMIN.getName())
+                        .requestMatchers("/product/**", "/category/**").hasAnyRole(UserRole.MANAGER.getName(), UserRole.ADMIN.getName())
                         .anyRequest().permitAll()
                 ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exceptionHandling ->
