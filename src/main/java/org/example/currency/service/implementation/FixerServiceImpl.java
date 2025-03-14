@@ -1,6 +1,7 @@
 package org.example.currency.service.implementation;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.currency.client.FixerClient;
 import org.example.currency.dto.FixerResponseDTO;
 import org.example.currency.exception.FixerParsingException;
 import org.example.currency.service.FixerService;
@@ -17,12 +18,12 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class FixerServiceImpl implements FixerService {
 
-    private final WebClient webClient;
     private final FixerExchangeRate fixerExchangeRate;
+    private final FixerClient fixerClient;
 
-    public FixerServiceImpl(@Value("${fixer.url}") String fixerUrl, WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl(fixerUrl).build();
+    public FixerServiceImpl(FixerClient fixerClient) {
         this.fixerExchangeRate = FixerExchangeRate.getInstance();
+        this.fixerClient = fixerClient;
     }
 
     @Override
@@ -38,12 +39,7 @@ public class FixerServiceImpl implements FixerService {
     }
 
     private void updateRates() {
-        FixerResponseDTO response = webClient.get()
-                .retrieve()
-                .bodyToMono(FixerResponseDTO.class)
-                .block();
-
-        setValuesToFixerExchangeRate(response);
+        setValuesToFixerExchangeRate(fixerClient.getCurrenciesRates());
     }
 
     private void setValuesToFixerExchangeRate(FixerResponseDTO response) {

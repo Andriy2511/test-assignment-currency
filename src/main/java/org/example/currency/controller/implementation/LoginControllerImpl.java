@@ -37,7 +37,6 @@ public class LoginControllerImpl implements LoginController {
     @Override
     @PostMapping("/authorization")
     public JwtTokenDTO createAuthToken(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
-        log.info("Creating JWT token");
 
         try {
             authenticationManager

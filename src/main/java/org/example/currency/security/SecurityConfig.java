@@ -49,7 +49,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole(UserRole.ADMIN.getName())
                         .requestMatchers(HttpMethod.GET , "/product/**").permitAll()
                         .requestMatchers("/order/**").hasAnyRole(UserRole.CUSTOMER.getName(), UserRole.ADMIN.getName())
-                        .requestMatchers("/product/**", "/category/**").hasAnyRole(UserRole.MANAGER.getName(), UserRole.ADMIN.getName())
+                        .requestMatchers("/product/**", "/category/**", "/currency/**").hasAnyRole(UserRole.MANAGER.getName(), UserRole.ADMIN.getName())
                         .anyRequest().permitAll()
                 ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exceptionHandling ->

@@ -1,0 +1,149 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="andri (generated)" id="1741781130515-1">
+        <createTable ifNotExists="true" tableName="categories">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="parent_id" type="BIGINT"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-2">
+        <createTable ifNotExists="true" tableName="currencies">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="code" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-3">
+        <createTable ifNotExists="true" tableName="orders">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="product_id" type="BIGINT"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-4">
+        <createTable ifNotExists="true" tableName="products">
+            <column name="price" type="DOUBLE"/>
+            <column name="category_id" type="BIGINT"/>
+            <column name="currency_id" type="BIGINT"/>
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-5">
+        <createTable ifNotExists="true" tableName="roles">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-6">
+        <createTable ifNotExists="true" tableName="users">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="role_id" type="BIGINT"/>
+            <column name="login" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-7">
+        <createIndex associatedWith="" indexName="FK32ql8ubntj5uh44ph9659tiih" tableName="orders">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-8">
+        <createIndex associatedWith="" indexName="FKhra5exi8h7cbkbui43hdmos1v" tableName="products">
+            <column name="currency_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-9">
+        <createIndex associatedWith="" indexName="FKkp5k52qtiygd8jkag4hayd0qg" tableName="orders">
+            <column name="product_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-10">
+        <createIndex associatedWith="" indexName="FKog2rp4qthbtt2lfyhfo32lsw9" tableName="products">
+            <column name="category_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-11">
+        <createIndex associatedWith="" indexName="FKp56c1712k691lhsyewcssf40f" tableName="users">
+            <column name="role_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-12">
+        <createIndex associatedWith="" indexName="FKsaok720gsu4u2wrgbk10b5n8d" tableName="categories">
+            <column name="parent_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-13">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FK32ql8ubntj5uh44ph9659tiih"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="orders" constraintName="FK32ql8ubntj5uh44ph9659tiih" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-14">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FKhra5exi8h7cbkbui43hdmos1v"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="currency_id" baseTableName="products" constraintName="FKhra5exi8h7cbkbui43hdmos1v" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="currencies" validate="true"/>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-15">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FKkp5k52qtiygd8jkag4hayd0qg"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="orders" constraintName="FKkp5k52qtiygd8jkag4hayd0qg" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="products" validate="true"/>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-16">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FKog2rp4qthbtt2lfyhfo32lsw9"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="products" constraintName="FKog2rp4qthbtt2lfyhfo32lsw9" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="categories" validate="true"/>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-17">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FKp56c1712k691lhsyewcssf40f"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="users" constraintName="FKp56c1712k691lhsyewcssf40f" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="roles" validate="true"/>
+    </changeSet>
+    <changeSet author="andri (generated)" id="1741781130515-18">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FKsaok720gsu4u2wrgbk10b5n8d"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseColumnNames="parent_id" baseTableName="categories" constraintName="FKsaok720gsu4u2wrgbk10b5n8d" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="categories" validate="true"/>
+    </changeSet>
+
+    <include file="db/changelog/init-data.xml"/>
+</databaseChangeLog>

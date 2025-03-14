@@ -1,0 +1,52 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
+
+    <changeSet id="1" author="andri (generated)" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM roles WHERE name = 'ADMIN';
+            </sqlCheck>
+        </preConditions>
+        <insert tableName="roles">
+            <column name="name" value="ADMIN"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="2" author="andri (generated)" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM roles WHERE name = 'MANAGER';
+            </sqlCheck>
+        </preConditions>
+        <insert tableName="roles">
+            <column name="name" value="MANAGER"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="3" author="andri (generated)" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM roles WHERE name = 'CUSTOMER';
+            </sqlCheck>
+        </preConditions>
+        <insert tableName="roles">
+            <column name="name" value="CUSTOMER"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="4" author="andri (generated)" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM users WHERE login = 'ADMIN';
+            </sqlCheck>
+        </preConditions>
+        <sql>
+            INSERT INTO users (login, password, role_id)
+            SELECT 'ADMIN', '$2a$10$3gtxJc1s2GMe.0Q0sSFXtedSBJ6RY4jMI0HYHAHoplb0Ao.gpqhPC',
+                   (SELECT id FROM roles WHERE name = 'ADMIN');
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
